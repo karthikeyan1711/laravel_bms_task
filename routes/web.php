@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskEnquiryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\JobAssistantController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use App\Http\Controllers\JobAssistantController;
 Route::get('/',[UserController::class,'index'])->name('user_registration');
 Route::post('user_registration/store',[UserController::class,'store_registration'])->name('store_registration');
 Route::get('get_city',[UserController::class,'get_city'])->name('get_city');
+
 Auth::routes(['register'=>false]);
 
 Route::group(['middleware' => 'auth'], function()
@@ -37,6 +39,9 @@ Route::group(['middleware' => 'auth'], function()
 	Route::get('job-assistan-tasks',[JobAssistantController::class,'index'])->name('job-assistan-tasks');
 	Route::get('reject-job-assistan-tasks/{id}',[JobAssistantController::class,'RejectTask'])->name('reject-job-assistan-tasks');
 	Route::get('accept-job-assistan-tasks/{id}',[JobAssistantController::class,'AcceptTask'])->name('accept-job-assistan-tasks');
+
+	Route::get('get_notifications',[NotificationController::class,'index'])->name('get_notifications');
+	Route::get('notifications/markallasread',[NotificationController::class,'markAllAsRead'])->name('markallasread');
 
 	Route::get('/home', 'HomeController@index')->name('home');
 });

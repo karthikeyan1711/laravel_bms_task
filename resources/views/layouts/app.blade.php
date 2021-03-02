@@ -72,6 +72,15 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+                                <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre onclick="getNotifications();">
+                                   My Notifications
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1" id="notifications_lists">
+                                   
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
@@ -120,5 +129,15 @@
     @yield('script')
     <script type="text/javascript">
         $('#example').DataTable();
+        function getNotifications()
+        {
+            $.ajax({
+                url : '{{ @route("get_notifications") }}',
+                method : 'GET',
+                success:function(data){
+                    $('#notifications_lists').html(data);
+                }
+            });
+        }
     </script>
 </html>

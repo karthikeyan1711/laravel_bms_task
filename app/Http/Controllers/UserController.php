@@ -8,6 +8,7 @@ use App\UserTask;
 use App\State;
 use App\City;
 use App\TasksAllocation;
+use App\Notification;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -71,6 +72,11 @@ class UserController extends Controller
             $UserTask = UserTask::create(array('user_id'=>$user_id,'task_description'=>$request->task_description,'status'=>0))->id;
 
         }
+
+        $notification_arr['message'] = 'New User Added, Task Assigend To Users';
+        $notification_arr['status'] = 1;
+
+        Notification::create($notification_arr);
 
     	return redirect()->back()->with('success','Thankyou for your registration');
     }

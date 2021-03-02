@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\State;
+use App\City;
 
 class CreateUsersSeeder extends Seeder
 {
@@ -12,6 +14,10 @@ class CreateUsersSeeder extends Seeder
      */
     public function run()
     {
+        $state_id = State::create(array('name'=>'Tamil nadu'))->id;
+        $city_id = City::create(array('state_id'=>$state_id,'name'=>'Coimbatore'))->id;
+        $cities = City::create(array('state_id'=>$state_id,'name'=>'Chennai',array('state_id'=>$state_id,'name'=>'Madurai'));
+
         $user = [
         		   'name'=>'Admin',
 	               'email'=>'admin@gmail.com',

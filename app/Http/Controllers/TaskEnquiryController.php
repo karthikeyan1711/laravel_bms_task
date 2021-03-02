@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\UserTask;
 use App\TasksAllocation;
+use App\Notification;
 
 class TaskEnquiryController extends Controller
 {
@@ -22,6 +23,10 @@ class TaskEnquiryController extends Controller
                 $job_assistance[$assistance_lists->id] = $assistance_lists->name;
             }
         }
+
+        $task_allocation_status = array();
+        $task_allocated_user = array();
+        $taskss_list = array();
 
         $tasks_count = TasksAllocation::get()->toArray();
         
@@ -51,6 +56,11 @@ class TaskEnquiryController extends Controller
         
         TasksAllocation::create($validatedData);
 
+        $notification_arr['message'] = '#'.$request->task_i.' Task is assigend';
+        $notification_arr['status'] = 1;
+
+        Notification::create($notification_arr);
+
         return redirect()->back()->with('success','User allocated successfully');
     }
 
@@ -76,6 +86,11 @@ class TaskEnquiryController extends Controller
         $validatedData['task_id'] = $validatedData['reassign_task_id'];
 
         TasksAllocation::create($validatedData);
+
+        $notification_arr['message'] = '#'.$request->reassign_task_id.' Task is reassigend';
+        $notification_arr['status'] = 1;
+
+        Notification::create($notification_arr);
 
         return redirect()->back()->with('success','User reallocated successfully');
     }

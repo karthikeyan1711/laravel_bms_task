@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\UserTask;
 use App\TasksAllocation;
+use App\Notification;
 
 class JobAssistantController extends Controller
 {
@@ -24,7 +25,7 @@ class JobAssistantController extends Controller
     			$my_tasks_list[] = $my_task['task_id'];
     		}
     	}
-    	return view('job_assistance_task_enquiries',compact('task_details','tasks_count','job_assistance_lists','my_tasks_list','task_allocation_status'));
+    	return view('job_assistance_task_enquiries',compact('task_details','my_tasks_list','task_allocation_status'));
    }
 
    public function RejectTask(Request $request,$task_id)
@@ -37,6 +38,11 @@ class JobAssistantController extends Controller
             $update_task = UserTask::where('id',$task_id)->update(array('status'=>0));
         }
 
+        $notification_arr['message'] = Auth()->user()->name.' Rejected #'.$task_id.' the task';
+        $notification_arr['status'] = 1;
+
+        Notification::create($notification_arr);
+
         return redirect()->back()->with('success','Task updated successfully');
     }
 
@@ -48,6 +54,11 @@ class JobAssistantController extends Controller
         {
             $update_allocation = TasksAllocation::where('task_id',$task_id)->update(array('status'=>2));
         }
+
+        $notification_arr['message'] = Auth()->user()->name.' Accpted #'.$task_id.' the task';
+        $notification_arr['status'] = 1;
+
+        Notification::create($notification_arr);
 
         return redirect()->back()->with('success','Task updated successfully');
     }

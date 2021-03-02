@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function index()
     {
     	$task_details = User::where('user_type',2)->with('state','city')->get();
-        return view('job_assistances',compact('task_details','tasks_count','job_assistance_lists'));
+        return view('job_assistances',compact('task_details'));
     }
 
     public function create()
